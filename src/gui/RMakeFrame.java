@@ -1,3 +1,4 @@
+package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,8 +8,10 @@ import javax.swing.JTextField;
 
 public class RMakeFrame {
 
-	private JFrame frame;
-	private JTextField tfRName;
+	public JFrame frame;
+	public JPanel RMake;
+	public JTextField tfRName;
+	public JButton btRName, btRMake;
 
 	/**
 	 * Launch the application.
@@ -42,22 +45,22 @@ public class RMakeFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 358, 178);
-		frame.getContentPane().add(panel);
-		panel.setLayout(null);
+		RMake = new JPanel();
+		RMake.setBounds(0, 0, 358, 178);
+		frame.getContentPane().add(RMake);
+		RMake.setLayout(null);
 		
-		JButton btRName = new JButton("방 제목");
+		btRName = new JButton("방 제목");
 		btRName.setBounds(48, 55, 105, 27);
-		panel.add(btRName);
+		RMake.add(btRName);
 		
 		tfRName = new JTextField();
 		tfRName.setBounds(168, 56, 149, 24);
-		panel.add(tfRName);
+		RMake.add(tfRName);
 		tfRName.setColumns(10);
 		
-		JButton btRMake = new JButton("방 만들기");
+		btRMake = new JButton("방 만들기");
 		btRMake.setBounds(102, 119, 162, 35);
-		panel.add(btRMake);
+		RMake.add(btRMake);
 	}
 }

@@ -1,3 +1,4 @@
+package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,10 +9,11 @@ import javax.swing.JTextField;
 
 public class SigninFame {
 
-	private JFrame frame;
-	private JTextField tfSid;
-	private JTextField tfSpw;
-
+	public JFrame frame;
+	public JPanel Login;
+	public JTextField tfSid, tfSpw;
+	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -43,39 +45,39 @@ public class SigninFame {
 		frame.setBounds(100, 100, 510, 314);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
+		Login = new JPanel();
+		frame.getContentPane().add(Login, BorderLayout.CENTER);
+		Login.setLayout(null);
 		
-		JButton btSID = new JButton("아이디");
+		btSID = new JButton("아이디");
 		btSID.setBounds(54, 66, 124, 29);
-		panel.add(btSID);
+		Login.add(btSID);
 		
 		tfSid = new JTextField();
 		tfSid.setBounds(198, 66, 139, 29);
-		panel.add(tfSid);
+		Login.add(tfSid);
 		tfSid.setColumns(10);
 		
-		JButton btIdCheck = new JButton("중복확인");
+		btIdCheck = new JButton("중복확인");
 		btIdCheck.setBounds(351, 66, 89, 29);
-		panel.add(btIdCheck);
+		Login.add(btIdCheck);
 		
-		JButton btSPW = new JButton("비밀번호");
+		btSPW = new JButton("비밀번호");
 		btSPW.setBounds(54, 118, 124, 29);
-		panel.add(btSPW);
+		Login.add(btSPW);
 		
 		tfSpw = new JTextField();
 		tfSpw.setBounds(198, 120, 139, 27);
-		panel.add(tfSpw);
+		Login.add(tfSpw);
 		tfSpw.setColumns(10);
 		
-		JButton btSign = new JButton("가입하기");
+		btSign = new JButton("가입하기");
 		btSign.setBounds(118, 191, 124, 29);
-		panel.add(btSign);
+		Login.add(btSign);
 		
-		JButton btCancel = new JButton("취소");
+		btCancel = new JButton("취소");
 		btCancel.setBounds(264, 192, 124, 27);
-		panel.add(btCancel);
+		Login.add(btCancel);
 	}
 
 }

@@ -1,3 +1,4 @@
+package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,11 +12,10 @@ import java.awt.event.ActionEvent;
 
 public class LoginFrame {
 
-	private JFrame frame;
-	private JPanel panel;
-	private JButton btID;
-	private JTextField tfID;
-	private JTextField textField;
+	public JFrame frame;
+	public JPanel panel;
+	public JButton btID, btPW, btSign, btLogin;
+	public JTextField tfID, textField;
 
 	/**
 	 * Launch the application.
@@ -66,7 +66,7 @@ public class LoginFrame {
 		panel.add(tfID);
 		tfID.setColumns(10);
 		
-		JButton btPW = new JButton("비밀번호");
+		btPW = new JButton("비밀번호");
 		btPW.setBounds(67, 99, 105, 27);
 		panel.add(btPW);
 		
@@ -75,11 +75,11 @@ public class LoginFrame {
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		JButton btSign = new JButton("회원가입");
+		btSign = new JButton("회원가입");
 		btSign.setBounds(94, 160, 89, 27);
 		panel.add(btSign);
 		
-		JButton btLogin = new JButton("로그인");
+		btLogin = new JButton("로그인");
 		btLogin.setBounds(197, 160, 89, 27);
 		panel.add(btLogin);
 	}
