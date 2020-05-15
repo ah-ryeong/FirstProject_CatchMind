@@ -93,10 +93,5 @@ public class GameRoomFrame extends JFrame{
 		});
 		btEnter.setBounds(823, 609, 80, 38);
 		getContentPane().add(btEnter);
-		
-//		Canv = new MyPanel(cv2);
-//		Canv.setBounds(40, 121, 479, 524);
-//		getContentPane().add(Canv);
-//		setVisible(true);
 	}
 }

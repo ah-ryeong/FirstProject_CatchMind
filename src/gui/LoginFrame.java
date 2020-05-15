@@ -24,7 +24,6 @@ public class LoginFrame extends JFrame {
 	
 	// 생성자
 	public LoginFrame() {
-//		initialize(null);
 		initObject();
 		initData();
 		initDesign();
@@ -103,7 +102,6 @@ public class LoginFrame extends JFrame {
 				loginFrame.setVisible(false);
 			}
 		});
-//		btLogin.addActionListener((ActionListener) c);
 	}
 	
 }

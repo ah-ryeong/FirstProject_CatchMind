@@ -141,5 +141,7 @@ public class Drawing extends listenAdapter {
 	}
 
 	// JPanel 
-
+	public static void main(String[] args) {
+		new Drawing();
+	}
 }

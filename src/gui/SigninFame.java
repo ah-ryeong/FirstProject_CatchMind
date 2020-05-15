@@ -16,8 +16,8 @@ public class SigninFame extends JFrame {
 
 	private final static String TAG = "SigninFame : ";
 
-	private JFrame signinFrame;
-//	public JFrame frame;
+	private SigninFame signinFrame = this;
+	
 	public JPanel Login;
 	public JTextField tfSid, tfSpw;
 	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
@@ -26,19 +26,15 @@ public class SigninFame extends JFrame {
 	// 생성자
 	public SigninFame(MainClient mainClient) {
 		this.mainClient = mainClient;
-//		initialize();
 		initObject();
 		initData();
 		initDesign();
 		initListener();
 		setVisible(true);
 	}
-	
-	
 
 	// 객체생성
 	private void initObject() {
-		signinFrame = new JFrame();
 		Login = new JPanel();
 
 		btSID = new JButton("아이디");
@@ -60,6 +56,7 @@ public class SigninFame extends JFrame {
 	private void initDesign() {
 
 		// 1. 기본세팅
+		signinFrame.setTitle("회원가입");
 		signinFrame.setBounds(100, 100, 510, 314);
 		signinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		signinFrame.setLocationRelativeTo(null);
@@ -99,7 +96,5 @@ public class SigninFame extends JFrame {
 			}
 		});
 	}
-	public static void main(String[] args) {
-		new SigninFame(mainClient);
-	}
+
 }
