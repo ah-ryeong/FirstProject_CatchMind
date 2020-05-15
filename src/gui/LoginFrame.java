@@ -22,25 +22,7 @@ public class LoginFrame extends JFrame {
 	public JTextField tfID, tfpw;
 	public MainClient mainClient;
 	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					LoginFrame window = new LoginFrame();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the application.
-	 */
+	// 생성자
 	public LoginFrame() {
 //		initialize(null);
 		initObject();
@@ -50,7 +32,7 @@ public class LoginFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public void setMc(MainClient mainClient) {
+	public void setmainclient(MainClient mainClient) {
 		this.mainClient = mainClient;
 	}
 	

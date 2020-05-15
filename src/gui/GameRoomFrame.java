@@ -20,13 +20,13 @@ public class GameRoomFrame extends JFrame{
 	public JButton btEnter, btCard, btGstart;
 	public JTextArea taChat, taUserList;
 	public JLabel LuserList;
-	public MainClient mc;
+	public MainClient mainClient;
 //	public Drawing dw;
 	public MyCanvas2 cv2;
 
 
-	public GameRoomFrame(MainClient mc) {
-		this.mc = mc;
+	public GameRoomFrame(MainClient mainClient) {
+		this.mainClient = mainClient;
 //		initialize();
 	}
 	
@@ -86,7 +86,7 @@ public class GameRoomFrame extends JFrame{
 				System.out.println("GameRoomFrame : 통신X 이벤트 : "+tfChat.getText());
 				taChat.append(tfChat.getText()+"\n");
 				//taChat.setText(taChat.getText()+tfChat.getText()+ "\n");
-				mc.send(tfChat.getText());
+				mainClient.send(tfChat.getText());
 				tfChat.setText("");
 				
 			}

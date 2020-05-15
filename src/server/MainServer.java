@@ -16,7 +16,7 @@ public class MainServer{
 	
 	public MainServer() throws Exception {
 		vc = new Vector<>();
-		serverSocket = new ServerSocket(3000);
+		serverSocket = new ServerSocket(3500);
 		
 		while (true) {
 			Socket socket = serverSocket.accept();

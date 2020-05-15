@@ -40,7 +40,7 @@ public class MainClient {
 		} 
 		
 		LoginFrame loginFrame = new LoginFrame();
-		loginFrame.setMc(mainClient);
+		loginFrame.setmainclient(mainClient);
 		loginFrame.setVisible(true);
 	}
 	
