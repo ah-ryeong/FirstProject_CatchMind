@@ -6,81 +6,122 @@ import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import Client.MainClient;
+import oracle.net.aso.c;
+
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginFrame {
+public class LoginFrame extends JFrame {
 
-	public JFrame frame;
-	public JPanel panel;
+	public LoginFrame loginFrame = this;
+	public JPanel pLogin;
 	public JButton btID, btPW, btSign, btLogin;
-	public JTextField tfID, textField;
-
+	public JTextField tfID, tfpw;
+	public MainClient mainClient;
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginFrame window = new LoginFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					LoginFrame window = new LoginFrame();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
 	public LoginFrame() {
-		initialize();
+//		initialize(null);
+		initObject();
+		initData();
+		initDesign();
+		initListener();
+		setVisible(true);
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 393, 269);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
-		
-		panel = new JPanel();
-		frame.getContentPane().add(panel);
-		panel.setLayout(null);
+	
+	public void setMc(MainClient mainClient) {
+		this.mainClient = mainClient;
+	}
+	
+	// 객체생성
+	private void initObject() {
+		pLogin = new JPanel();
 		
 		btID = new JButton("아이디");
-		btID.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btID.setBounds(67, 45, 105, 27);
-		panel.add(btID);
+		btPW = new JButton("비밀번호");
+		btSign = new JButton("회원가입");
+		btLogin = new JButton("로그인");
 		
 		tfID = new JTextField();
-		tfID.setBounds(197, 46, 128, 24);
-		panel.add(tfID);
-		tfID.setColumns(10);
-		
-		btPW = new JButton("비밀번호");
-		btPW.setBounds(67, 99, 105, 27);
-		panel.add(btPW);
-		
-		textField = new JTextField();
-		textField.setBounds(197, 99, 128, 26);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		btSign = new JButton("회원가입");
-		btSign.setBounds(94, 160, 89, 27);
-		panel.add(btSign);
-		
-		btLogin = new JButton("로그인");
-		btLogin.setBounds(197, 160, 89, 27);
-		panel.add(btLogin);
+		tfpw = new JTextField();
 	}
+
+	// 데이터 초기화
+	private void initData() {
+		
+	}
+	
+	// 디자인
+	private void initDesign() {
+		// 1. 기본세팅
+		loginFrame.setTitle("Login");
+		loginFrame.setBounds(100, 100, 393, 269);
+		loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		loginFrame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		
+		// 2. 패널세팅
+		getContentPane().add(pLogin);
+		pLogin.setLayout(null);
+		
+		// 3. 디자인 
+		tfID.setColumns(10);
+		tfID.setBounds(197, 46, 128, 24);
+		btID.setBounds(67, 45, 105, 27);
+		tfpw.setBounds(197, 99, 128, 26);
+		btPW.setBounds(67, 99, 105, 27);
+		tfpw.setColumns(10);
+		btSign.setBounds(94, 160, 89, 27);
+		btLogin.setBounds(197, 160, 89, 27);
+		
+		// 4. 패널에 컴포넌트 추가
+		pLogin.add(btID);
+		pLogin.add(tfID);
+		pLogin.add(btPW);
+		pLogin.add(tfpw);
+		pLogin.add(btSign);
+		pLogin.add(btLogin);
+	}
+	
+	// 리스너 등록
+	private void initListener() {
+		
+		btLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new GameRoomFrame(mainClient);
+				loginFrame.setVisible(false);
+			}
+		});
+		
+		btSign.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new SigninFame(mainClient);
+				loginFrame.setVisible(false);
+			}
+		});
+//		btLogin.addActionListener((ActionListener) c);
+	}
+	
 }

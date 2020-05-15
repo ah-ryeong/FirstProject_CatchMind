@@ -1,8 +1,11 @@
+import Client.MainClient;
+import gui.LoginFrame;
 
 public class CatchMindApp {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		new MainClient();
 
 	}
 

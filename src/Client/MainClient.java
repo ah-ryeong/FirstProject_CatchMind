@@ -11,19 +11,20 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import gui.GameRoomFrame;
+import gui.LoginFrame;
 import server.MainServer;
 
 public class MainClient {
 	Socket socket;
 	BufferedWriter bw;
 	BufferedReader keyboardln;
-	MainClient mc = this;
+	MainClient mainClient = this;
 	GameRoomFrame grf;
 	
 	public MainClient() {
 		
 		try {
-			grf = new GameRoomFrame(mc);
+			grf = new GameRoomFrame(mainClient);
 			socket = new Socket("localhost", 3000);
 			ReadThread rt = new ReadThread();
 			Thread newWorker = new Thread(rt);
@@ -37,6 +38,10 @@ public class MainClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+		
+		LoginFrame loginFrame = new LoginFrame();
+		loginFrame.setMc(mainClient);
+		loginFrame.setVisible(true);
 	}
 	
 	public void send(String outputMsg) {
@@ -69,8 +74,5 @@ public class MainClient {
 			}
 		}
 		
-	}
-	public static void main(String[] args) {
-		new MainClient();
 	}
 }

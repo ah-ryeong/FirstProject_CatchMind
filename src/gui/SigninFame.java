@@ -7,33 +7,24 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public class SigninFame {
+import Client.MainClient;
+
+public class SigninFame extends JFrame {
+	
+	private final static String TAG = "SigninFame : ";
 
 	public JFrame frame;
 	public JPanel Login;
 	public JTextField tfSid, tfSpw;
 	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
+	public MainClient mainClient;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SigninFame window = new SigninFame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public SigninFame() {
+	public SigninFame(MainClient mainClient) {
+		this.mainClient = mainClient;
 		initialize();
 	}
 

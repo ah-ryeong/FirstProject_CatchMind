@@ -10,27 +10,31 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Client.MainClient;
+import Paint.Drawing;
+import Paint.MyCanvas2;
 
 public class GameRoomFrame extends JFrame{
 
-	public JPanel Canvas;
+	public JPanel Canvas, Canv ;
 	public JTextField tfCard, tfChat;
 	public JButton btEnter, btCard, btGstart;
 	public JTextArea taChat, taUserList;
 	public JLabel LuserList;
 	public MainClient mc;
-
-	/**
-	 * Launch the application.
-	 */
+//	public Drawing dw;
+	public MyCanvas2 cv2;
 
 
-	/**
-	 * Create the application.
-	 */
 	public GameRoomFrame(MainClient mc) {
 		this.mc = mc;
-		initialize();
+//		initialize();
+	}
+	
+	class MyPanel extends JPanel{
+		MyCanvas2 cv2;
+		public MyPanel(MyCanvas2 cv2) {
+			this.cv2 = cv2;
+		}
 	}
 
 	/**
@@ -53,6 +57,7 @@ public class GameRoomFrame extends JFrame{
 		Canvas = new JPanel();
 		Canvas.setBounds(40, 106, 502, 541);
 		getContentPane().add(Canvas);
+		
 		btGstart = new JButton("게임시작");
 		btGstart.setBounds(580, 46, 323, 63);
 		getContentPane().add(btGstart);
@@ -88,6 +93,10 @@ public class GameRoomFrame extends JFrame{
 		});
 		btEnter.setBounds(823, 609, 80, 38);
 		getContentPane().add(btEnter);
-		setVisible(true);
+		
+//		Canv = new MyPanel(cv2);
+//		Canv.setBounds(40, 121, 479, 524);
+//		getContentPane().add(Canv);
+//		setVisible(true);
 	}
 }

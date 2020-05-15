@@ -9,6 +9,9 @@ import javax.swing.JButton;
 public class WaitRoomFrame {
 
 	private JFrame frame;
+	public JLabel LrList;
+	public JPanel ProomList;
+	public JButton btin, btRoomcr;
 
 	/**
 	 * Launch the application.
@@ -42,19 +45,19 @@ public class WaitRoomFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel LrList = new JLabel("Room List");
+		LrList = new JLabel("Room List");
 		LrList.setBounds(44, 30, 237, 43);
 		frame.getContentPane().add(LrList);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(43, 92, 522, 468);
-		frame.getContentPane().add(panel);
+		ProomList = new JPanel();
+		ProomList.setBounds(43, 92, 522, 468);
+		frame.getContentPane().add(ProomList);
 		
-		JButton btin = new JButton("입장");
+		btin = new JButton("입장");
 		btin.setBounds(595, 499, 272, 61);
 		frame.getContentPane().add(btin);
 		
-		JButton btRoomcr = new JButton("방 만들기");
+		btRoomcr = new JButton("방 만들기");
 		btRoomcr.setBounds(595, 420, 272, 61);
 		frame.getContentPane().add(btRoomcr);
 	}

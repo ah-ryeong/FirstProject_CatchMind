@@ -1,5 +1,6 @@
 package gui;
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,13 +34,13 @@ public class RMakeFrame {
 	 * Create the application.
 	 */
 	public RMakeFrame() {
-		initialize();
+		initialize(null);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Object c) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 376, 225);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,6 +62,20 @@ public class RMakeFrame {
 		
 		btRMake = new JButton("방 만들기");
 		btRMake.setBounds(102, 119, 162, 35);
+		btRMake.addActionListener((ActionListener)c);
 		RMake.add(btRMake);
+	}
+	
+	public String getRoomName()
+	{
+		return tfRName.getText();
+	}
+	public String getcreatebuttonactioncommend()
+	{
+		return btRMake.getActionCommand();
+	}
+	public void setTextClear()
+	{
+		tfRName.setText(" ");
 	}
 }
