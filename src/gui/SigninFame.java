@@ -3,6 +3,8 @@ package gui;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,6 +16,7 @@ import javax.swing.JTextField;
 import Client.MainClient;
 import dao.UserDao;
 import models.User;
+import utils.Protocol;
 
 public class SigninFame extends JFrame {
 
@@ -119,7 +122,27 @@ public class SigninFame extends JFrame {
 						JOptionPane.showMessageDialog(null, "가입 성공");
 						new LoginFrame();
 						signinFrame.setVisible(false);
+					} else {
+						JOptionPane.showMessageDialog(null, "가입에 실패하였습니다");
 					}
+				}
+			}
+		});
+
+		btIdCheck.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UserDao userDao = UserDao.getInstance();
+				int result = userDao.확인(tfSid.getText());
+
+				if (result == 1) {
+					// 가입성공
+					JOptionPane.showMessageDialog(null, "사용가능한 아이디입니다.");
+				} else {
+					// 가입실패
+					JOptionPane.showMessageDialog(null, "아이디가 중복됩니다.");
+					tfSid.setText("");
 				}
 
 			}

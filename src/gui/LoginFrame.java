@@ -96,19 +96,32 @@ public class LoginFrame extends JFrame {
 	// 리스너 등록
 	private void initListener() {
 
-		btLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				grf.setVisible(true);
-				loginFrame.setVisible(false);
-			}
-		});
-
 		btSign.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new SigninFame(mainClient);
 				loginFrame.setVisible(false);
+			}
+		});
+		
+		btLogin.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// userdao에 셀렉트문으로 select from where username 이랑 qw가 같을경우 성공/ 리턴이 0개가되면 오류메시지
+				UserDao userDao = UserDao.getInstance();
+				int result = userDao.로그인(tfID.getText(), tfpw.getText());
+
+				if (result == 1) {
+					grf.setVisible(true);
+					loginFrame.setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.");
+					tfID.setText("");
+					tfpw.setText("");
+				}
+
 			}
 		});
 
