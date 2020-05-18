@@ -25,7 +25,7 @@ public class MainClient {
 		
 		try {
 			grf = new GameRoomFrame(mainClient);
-			socket = new Socket("localhost", 3000);
+			socket = new Socket("localhost", 3500);
 			ReadThread rt = new ReadThread();
 			Thread newWorker = new Thread(rt);
 			newWorker.start();
@@ -40,7 +40,7 @@ public class MainClient {
 		} 
 		
 		LoginFrame loginFrame = new LoginFrame();
-		loginFrame.setmainclient(mainClient);
+		loginFrame.setmainclient(mainClient, grf);
 		loginFrame.setVisible(true);
 	}
 	

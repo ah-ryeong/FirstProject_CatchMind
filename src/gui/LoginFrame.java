@@ -21,6 +21,7 @@ public class LoginFrame extends JFrame {
 	public JButton btID, btPW, btSign, btLogin;
 	public JTextField tfID, tfpw;
 	public MainClient mainClient;
+	GameRoomFrame grf;
 	
 	// 생성자
 	public LoginFrame() {
@@ -31,8 +32,9 @@ public class LoginFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public void setmainclient(MainClient mainClient) {
+	public void setmainclient(MainClient mainClient, GameRoomFrame grf) {
 		this.mainClient = mainClient;
+		this.grf = grf;
 	}
 	
 	// 객체생성
@@ -89,7 +91,7 @@ public class LoginFrame extends JFrame {
 		
 		btLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new GameRoomFrame(mainClient);
+				grf.setVisible(true);
 				loginFrame.setVisible(false);
 			}
 		});

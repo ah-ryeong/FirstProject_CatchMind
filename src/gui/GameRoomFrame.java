@@ -34,7 +34,6 @@ public class GameRoomFrame extends JFrame {
 		initData();
 		initDesign();
 		initListener();
-		setVisible(true);
 	}
 
 	// 객체생성
@@ -60,7 +59,7 @@ public class GameRoomFrame extends JFrame {
 		// 1. 기본세팅
 		setTitle("Game Room");
 		setBounds(100, 100, 962, 738);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		// 2. 패널세팅

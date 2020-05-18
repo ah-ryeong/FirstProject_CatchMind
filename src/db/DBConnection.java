@@ -1,12 +1,17 @@
 package db;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 
 // 연결
 public class DBConnection {
 	
 	private final static String TAG = "DBConnection : ";
+	
+	Connection conn;
+	Statement stmt;
 	
 	public static Connection getConnection() {
 		
@@ -19,4 +24,8 @@ public class DBConnection {
 		}
 		return null;
 	}
+	//누나! 그거아이다마!! 다시해라!! 이거아니라고! 
+	//다시해라 다시 오류투성이고!
+	
+	
 }
