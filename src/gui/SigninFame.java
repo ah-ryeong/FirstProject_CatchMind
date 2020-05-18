@@ -5,19 +5,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import Client.MainClient;
+import dao.UserDao;
+import models.User;
 
 public class SigninFame extends JFrame {
 
 	private final static String TAG = "SigninFame : ";
 
 	private SigninFame signinFrame = this;
-	
+
 	public JPanel Login;
 	public JTextField tfSid, tfSpw;
 	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
@@ -85,14 +88,40 @@ public class SigninFame extends JFrame {
 		Login.add(btSign);
 		Login.add(btCancel);
 	}
-	
+
 	private void initListener() {
-		btCancel.addActionListener(new  ActionListener() {
-			
+		btCancel.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new LoginFrame();
 				signinFrame.setVisible(false);
+			}
+		});
+
+		btSign.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 1, 2 TF에 있는 값을 가져와서 User에 담음
+				System.out
+						.println(TAG + "회원가입 : " + "userName : " + tfSid.getText() + "/ password : " + tfSpw.getText());
+				if (tfSid.getText().length() == 0 || tfSpw.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "빈 칸을 입력해주세요.");
+				} else {
+					User user = new User(tfSid.getText(), tfSpw.getText());
+
+					UserDao ud = UserDao.getInstance();
+					int result = ud.가입(user);
+					// 4. return 값을 확인해서 로직을 직접 짜기(성공, 실패)
+					if (result == 1) {
+						// 5. 성공
+						JOptionPane.showMessageDialog(null, "가입 성공");
+						new LoginFrame();
+						signinFrame.setVisible(false);
+					}
+				}
+
 			}
 		});
 	}
