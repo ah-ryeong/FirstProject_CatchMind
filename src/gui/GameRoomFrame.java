@@ -1,9 +1,14 @@
 package gui;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Client.MainClient;
+import paint.MyCanvas;
 import utils.Protocol;
 
 public class GameRoomFrame extends JFrame {
@@ -29,6 +35,7 @@ public class GameRoomFrame extends JFrame {
 	public JPanel Canvas, PDrawing;
 	private String username;
 	private JLabel laUsername;
+	public Canvas can; // 부모타입 
 		
 	public GameRoomFrame(String username) {
 		this.username = username;
@@ -59,6 +66,7 @@ public class GameRoomFrame extends JFrame {
 		btBlue = new JButton(new ImageIcon("src/images/blue.png"));
 		btEraser = new JButton("지우기");
 		btAlldel = new JButton("모두 지우기");
+		can = new MyCanvas();
 	}
 
 	// 데이터초기화
@@ -95,7 +103,8 @@ public class GameRoomFrame extends JFrame {
 		btEraser.setBounds(273, 12, 85, 46);
 		btAlldel.setBounds(372, 12, 116, 46);
 		PDrawing.setBounds(14, 81, 474, 448);
-		PDrawing.setBackground(Color.WHITE);
+		can.setSize(474, 448);
+		can.setBackground(Color.WHITE);
 
 		// 3. 패널에 컴포넌트 추가
 		getContentPane().add(btCard);
@@ -113,6 +122,7 @@ public class GameRoomFrame extends JFrame {
 		Canvas.add(btEraser);
 		Canvas.add(btAlldel);
 		Canvas.add(PDrawing);
+		PDrawing.add(can);
 		
 		laUsername = new JLabel(username);
 		laUsername.setBounds(40, 10, 57, 15);
@@ -141,5 +151,52 @@ public class GameRoomFrame extends JFrame {
 				mainClient.send(msgLine);
 			}
 		});
+		
+		MyHandler myHandler = new MyHandler();
+		can.addMouseMotionListener(myHandler);
+		btBlack.addActionListener(myHandler);
+		btRed.addActionListener(myHandler);
+		btBlue.addActionListener(myHandler);
+		btEraser.addActionListener(myHandler);
+		btAlldel.addActionListener(myHandler);
+	}
+	
+	class MyHandler implements MouseMotionListener, ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object object = e.getSource();
+			MyCanvas can2 = (MyCanvas)can;
+			
+			if(object == btBlack) {
+				can2.color = Color.BLACK;
+			} else if(object == btRed) {
+				can2.color = Color.RED;
+			} else if(object == btBlue) {
+				can2.color = Color.BLUE;
+			} else if (object == btEraser) {
+				can2.color = can.getBackground();
+			} else if(object == btAlldel) {
+				Graphics graphics = can2.getGraphics();
+				graphics.clearRect(0, 0, getWidth(), getHeight());
+			}
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// 마우스를 드래그한 지점의 x좌표, y좌표를 얻어와서 can의 x,y 좌표값에 전달
+			int XX = e.getX();
+			int YY = e.getY();
+			((MyCanvas)can).X = XX;
+			((MyCanvas)can).Y = YY;
+			
+			can.repaint();
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			
+		}
+		
 	}
 }
