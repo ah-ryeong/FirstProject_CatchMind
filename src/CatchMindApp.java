@@ -5,7 +5,7 @@ public class CatchMindApp {
                               
 	public static void main(String[] args) {
 
-		new MainClient();
+		new LoginFrame();
 
 	}
 

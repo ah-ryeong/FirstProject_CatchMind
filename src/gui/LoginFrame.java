@@ -28,7 +28,6 @@ public class LoginFrame extends JFrame {
 	public JButton btID, btPW, btSign, btLogin;
 	public JTextField tfID, tfpw;
 	public MainClient mainClient;
-	GameRoomFrame grf;
 
 	// 생성자
 	public LoginFrame() {
@@ -37,11 +36,6 @@ public class LoginFrame extends JFrame {
 		initDesign();
 		initListener();
 		setVisible(true);
-	}
-
-	public void setmainclient(MainClient mainClient, GameRoomFrame grf) {
-		this.mainClient = mainClient;
-		this.grf = grf;
 	}
 
 	// 객체생성
@@ -100,7 +94,7 @@ public class LoginFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SigninFame(mainClient, grf);
+				new SigninFame(mainClient);
 				loginFrame.setVisible(false);
 			}
 		});
@@ -114,7 +108,7 @@ public class LoginFrame extends JFrame {
 				int result = userDao.로그인(tfID.getText(), tfpw.getText());
 
 				if (result == 1) {
-					grf.setVisible(true);
+					new GameRoomFrame(tfID.getText());
 					loginFrame.setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.");
