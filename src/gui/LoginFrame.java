@@ -100,7 +100,7 @@ public class LoginFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SigninFame(mainClient);
+				new SigninFame(mainClient, grf);
 				loginFrame.setVisible(false);
 			}
 		});

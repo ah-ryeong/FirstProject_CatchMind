@@ -1,8 +1,11 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,11 +23,11 @@ public class GameRoomFrame extends JFrame {
 
 	private GameRoomFrame gameroomFrame = this;
 	public JTextField tfCard, tfChat;
-	public JButton btEnter, btCard, btGstart;
+	public JButton btEnter, btCard, btGstart, btBlack, btRed, btBlue, btEraser, btAlldel;
 	public JTextArea taChat, taUserList;
 	public JLabel LuserList;
 	public MainClient mainClient;
-	public JPanel Canvas;
+	public JPanel Canvas, PDrawing;
 //	public Drawing dw;
 //	public MyCanvas2 cv2;
 
@@ -42,11 +45,19 @@ public class GameRoomFrame extends JFrame {
 		btGstart = new JButton("게임시작");
 		tfCard = new JTextField();
 		Canvas = new JPanel();
+		PDrawing = new JPanel();
+		Canvas.setLayout(null);
+
 		LuserList = new JLabel("User List");
 		taUserList = new JTextArea();
 		tfChat = new JTextField();
 		btEnter = new JButton("Enter");
 		taChat = new JTextArea();
+		btBlack = new JButton(new ImageIcon("src/images/black.png"));
+		btRed = new JButton(new ImageIcon("src/images/red.png"));
+		btBlue = new JButton(new ImageIcon("src/images/blue.png"));
+		btEraser = new JButton("지우기");
+		btAlldel = new JButton("모두 지우기");
 	}
 
 	// 데이터초기화
@@ -74,6 +85,16 @@ public class GameRoomFrame extends JFrame {
 		tfChat.setBounds(580, 609, 229, 38);
 		tfChat.setColumns(10);
 		btEnter.setBounds(823, 609, 80, 38);
+		btBlack.setBounds(14, 12, 54, 46);
+		btBlack.setPreferredSize(new Dimension(54, 46));
+		btRed.setBounds(82, 12, 54, 46);
+		btRed.setPreferredSize(new Dimension(54, 46));
+		btBlue.setBounds(150, 12, 54, 46);
+		btBlue.setPreferredSize(new Dimension(54, 46));
+		btEraser.setBounds(273, 12, 85, 46);
+		btAlldel.setBounds(372, 12, 116, 46);
+		PDrawing.setBounds(14, 81, 474, 448);
+		PDrawing.setBackground(Color.WHITE);
 
 		// 3. 패널에 컴포넌트 추가
 		getContentPane().add(btCard);
@@ -85,6 +106,12 @@ public class GameRoomFrame extends JFrame {
 		getContentPane().add(taChat);
 		getContentPane().add(tfChat);
 		getContentPane().add(btEnter);
+		Canvas.add(btBlack);
+		Canvas.add(btRed);
+		Canvas.add(btBlue);
+		Canvas.add(btEraser);
+		Canvas.add(btAlldel);
+		Canvas.add(PDrawing);
 	}
 
 	// 리스너 등록
@@ -102,5 +129,4 @@ public class GameRoomFrame extends JFrame {
 			}
 		});
 	}
-
 }

@@ -28,10 +28,12 @@ public class SigninFame extends JFrame {
 	public JTextField tfSid, tfSpw;
 	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
 	public static MainClient mainClient;
+	public GameRoomFrame grf;
 
 	// 생성자
-	public SigninFame(MainClient mainClient) {
+	public SigninFame(MainClient mainClient, GameRoomFrame grf) {
 		this.mainClient = mainClient;
+		this.grf = grf;
 		initObject();
 		initData();
 		initDesign();
@@ -97,7 +99,9 @@ public class SigninFame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new LoginFrame();
+				LoginFrame loginFrame = new LoginFrame();
+				loginFrame.setmainclient(mainClient, grf);
+				loginFrame.setVisible(true);
 				signinFrame.setVisible(false);
 			}
 		});
@@ -120,7 +124,9 @@ public class SigninFame extends JFrame {
 					if (result == 1) {
 						// 5. 성공
 						JOptionPane.showMessageDialog(null, "가입 성공");
-						new LoginFrame();
+						LoginFrame loginFrame = new LoginFrame();
+						loginFrame.setmainclient(mainClient, grf);
+						loginFrame.setVisible(true);
 						signinFrame.setVisible(false);
 					} else {
 						JOptionPane.showMessageDialog(null, "가입에 실패하였습니다");
