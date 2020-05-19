@@ -9,7 +9,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import utils.Protocol;
+
 public class MainServer{
+	
+	private final static String TAG = "MainServer : ";
 
 	ServerSocket serverSocket;
 	Vector<SocketThread>vc;                                                                                                          
@@ -47,11 +51,30 @@ public class MainServer{
 				String msg = "";
 				while((msg = br.readLine()) != null) {
 					System.out.println("클라이언트 : " + msg);
-					for (SocketThread socketThread : vc) {
-						if (socketThread != this) {
-							socketThread.bw.write(msg + "\n");
-							socketThread.bw.flush();
-						}
+					router(msg);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void router(String msgLine) {
+			
+			String[] msg =msgLine.split(":");
+			String protocol = msg[0];
+			if(protocol.equals(Protocol.CHAT)) {
+				String chatMsg = msg[1];
+				chattingMsg(chatMsg);
+			}
+		}
+		
+		public void chattingMsg(String chatMsg) {
+			System.out.println(TAG + chatMsg + socket.getInetAddress());
+			try {
+				for(SocketThread socketThread : vc) {
+					if (socketThread != this) {
+						socketThread.bw.write(chatMsg + "\n");
+						socketThread.bw.flush();
 					}
 				}
 			} catch (Exception e) {

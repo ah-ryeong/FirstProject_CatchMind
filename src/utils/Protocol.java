@@ -17,4 +17,5 @@ public interface Protocol {
 	String HOSTCHANGE = "HostChange";
 //	String ROOMCLEAR = "RoomClear";
 	String ENDMOUSE = "EndMouse";
+	String STARTGAME = "StartGame";
 }
