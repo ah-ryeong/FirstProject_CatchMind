@@ -1,5 +1,6 @@
 package Client;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import gui.GameRoomFrame;
@@ -16,14 +18,16 @@ import server.MainServer;
 import utils.Protocol;
 
 public class MainClient {
-	
+
 	private static final String TAG = "MainClient : ";
-	
+
 	Socket socket;
 	BufferedWriter bw;
 	BufferedReader keyboardln;
 	MainClient mainClient = this;
 	GameRoomFrame gameroomFrame;
+	BufferedImage bi;
+	public String nickName; // 대화할때 나오는 아이디(이름)
 
 	public MainClient(GameRoomFrame gameroomFrame) {
 		this.gameroomFrame = gameroomFrame;
@@ -53,8 +57,20 @@ public class MainClient {
 		}
 
 	}
+	
+	public void userSend(ArrayList<String> userName) {
+		try {
+			bw.write(userName + "\n");
+			bw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	class ReadThread implements Runnable {
+		
+		public int x;
+		public int y;
 
 		@Override
 		public void run() {
@@ -69,30 +85,47 @@ public class MainClient {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public void router(String msgLine) {
 			// 만약에 Chat
 			System.out.println(TAG + "router : " + msgLine);
-			
+
 			String[] msg = msgLine.split(":");
 			String protocol = msg[0];
 			if (protocol.equals(Protocol.CHAT)) {
-				String chatMsg = msg[1];
-				gameroomFrame.taChat.append(chatMsg + "\n");
+				String username =msg[1];
+				String chatMsg = msg[2];
+				gameroomFrame.taChat.append(" [ " + username + " ] " + chatMsg + "\n");
 			} else if (protocol.equals(Protocol.STARTGAME)) {
 				// 만약에 제시어:false -> 그림판 비활성화, 채팅창 활성화, 제시어부분 클리어
-			    // 만약에 제시어:다른게 -> 그림판 활성화, 채팅창 비활성화, 제시어부분 넣어주기
+				// 만약에 제시어:다른게 -> 그림판 활성화, 채팅창 비활성화, 제시어부분 넣어주기
 				String chatMsg = msg[1];
-				if(chatMsg.equals("false")) {
+				if (chatMsg.equals("false")) {
 					gameroomFrame.PDrawing.setEnabled(false);
 					gameroomFrame.tfChat.setEnabled(true);
 					gameroomFrame.tfCard.setText("");
-				} else { // 제시어 턴의 주인 
+					gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
+				} else { // 제시어 턴의 주인
 					gameroomFrame.PDrawing.setEnabled(true);
 					gameroomFrame.tfChat.setEditable(false);
 					gameroomFrame.tfCard.setText(chatMsg);
+					gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
 				}
+			} else if (protocol.equals(Protocol.DRAW)) {
+				String[] drawMsg = msg[1].split(",");
+				x = Integer.parseInt(drawMsg[1]);
+				y = Integer.parseInt(drawMsg[2]);
+				
+				gameroomFrame.setColor(drawMsg[0]);
+				gameroomFrame.can.setX(x);
+				gameroomFrame.can.setY(y);
+				gameroomFrame.can.repaint();
 			}
+			// System.out.println("MainClient : 상대방채팅 : " + inputMsg);
+			// ta뿌리기
+
+			// grf.taChat.setText(grf.taChat.getText() + inputMsg + "\n");
+			// 아니면 GameStart
 		}
 	}
 }

@@ -10,7 +10,8 @@ public interface Protocol {
 	String STARTGAME = "StartGame";
 	String CHAT = "Chat";
 	String DRAW = "Draw";
-	String USERLISTADD = "UserListAdd";
+	String BRUSH = "brush";
+	String USERLIST = "UserList";
 	String USERLISTREMOVE = "UserListRemove";
 //	String ROOMLISTADD = "RoomListAdd";
 //	String ROOMLISTREMOVE = "RoomListRemove";

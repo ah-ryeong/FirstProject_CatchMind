@@ -7,22 +7,28 @@ import java.awt.Graphics;
 public class MyCanvas extends Canvas {
 
 	// 검은색 점 안찍히게 하기 위해서 x, y 값을 -로 지정해준다.
-	public int X = -70;
-	public int Y = -70;
-	public int W = 7;
-	public int H = 7;
+	public int x;
+	public int y;
 	
 	public Color color = Color.BLACK;
 
 	@Override
 	public void paint(Graphics graphics) {
 		graphics.setColor(color);
-		graphics.fillOval(X, Y, W, H); // 70, 70 크기의 원 그리기 
+		graphics.fillOval(x-5, y-5, 7, 7); // 70, 70 크기의 원 그리기 
 	}
 
 	@Override
 	public void update(Graphics graphics) {
 		paint(graphics);
+	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
 	}
 
 }

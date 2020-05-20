@@ -16,7 +16,10 @@ import models.User;
 import oracle.net.aso.c;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class LoginFrame extends JFrame {
@@ -26,8 +29,10 @@ public class LoginFrame extends JFrame {
 	public LoginFrame loginFrame = this;
 	public JPanel pLogin;
 	public JButton btID, btPW, btSign, btLogin;
-	public JTextField tfID, tfpw;
+	public JTextField tfID;
+	public JPasswordField tfpw;
 	public MainClient mainClient;
+	public ArrayList<String> userName = new ArrayList<>();
 
 	// 생성자
 	public LoginFrame() {
@@ -48,7 +53,7 @@ public class LoginFrame extends JFrame {
 		btLogin = new JButton("로그인");
 
 		tfID = new JTextField();
-		tfpw = new JTextField();
+		tfpw = new JPasswordField();
 	}
 
 	// 데이터 초기화
@@ -110,6 +115,12 @@ public class LoginFrame extends JFrame {
 				if (result == 1) {
 					new GameRoomFrame(tfID.getText());
 					loginFrame.setVisible(false);
+					// 로그인 성공시 list에 담아서 push
+					userName.add(tfID.getText());
+					System.out.println(TAG + "getText 확인 : " + tfID.getText());
+					mainClient.userSend(userName);
+					System.out.println(TAG + "userName 확인 : " + userName);
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.");
 					tfID.setText("");
