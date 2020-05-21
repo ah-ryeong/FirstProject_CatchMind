@@ -9,14 +9,21 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.BorderLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import Client.MainClient;
 import dao.UserDao;
 import models.User;
 import utils.Protocol;
+import javax.swing.JSeparator;
+import java.awt.Color;
 
 public class SigninFame extends JFrame {
 
@@ -25,8 +32,10 @@ public class SigninFame extends JFrame {
 	private SigninFame signinFrame = this;
 
 	public JPanel Login;
-	public JTextField tfSid, tfSpw;
+	public JTextField tfSid;
+	public JPasswordField tfSpw;
 	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
+	public JSeparator separator;
 	public static MainClient mainClient;
 
 	// 생성자
@@ -42,15 +51,18 @@ public class SigninFame extends JFrame {
 	// 객체생성
 	private void initObject() {
 		Login = new JPanel();
+		Login.setBackground(Color.WHITE);
 
 		btSID = new JButton("아이디");
 		btIdCheck = new JButton("중복확인");
 		btSPW = new JButton("비밀번호");
 		btSign = new JButton("가입하기");
 		btCancel = new JButton("취소");
+		separator = new JSeparator();
+		separator.setBackground(Color.BLACK);
 
 		tfSid = new JTextField();
-		tfSpw = new JTextField();
+		tfSpw = new JPasswordField();
 	}
 
 	// 데이터 초기화
@@ -63,7 +75,7 @@ public class SigninFame extends JFrame {
 
 		// 1. 기본세팅
 		signinFrame.setTitle("회원가입");
-		signinFrame.setBounds(100, 100, 510, 314);
+		signinFrame.setBounds(100, 100, 359, 437);
 		signinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		signinFrame.setLocationRelativeTo(null);
 		signinFrame.getContentPane().add(Login, BorderLayout.CENTER);
@@ -72,15 +84,20 @@ public class SigninFame extends JFrame {
 		Login.setLayout(null);
 
 		// 3. 디자인
-		btSID.setBounds(54, 66, 124, 29);
-		tfSid.setBounds(198, 66, 139, 29);
+		btSID.setBounds(24, 64, 89, 27);
+		tfSid.setBounds(24, 93, 178, 41);
 		tfSid.setColumns(10);
-		btIdCheck.setBounds(351, 66, 89, 29);
-		btSPW.setBounds(54, 118, 124, 29);
-		tfSpw.setBounds(198, 120, 139, 27);
+		Border borderLine = BorderFactory.createLineBorder(Color.BLACK, 3);
+		tfSid.setBorder(borderLine);
+		btIdCheck.setBounds(216, 94, 98, 38);
+		btSPW.setBounds(24, 162, 89, 27);
+		tfSpw.setBounds(25, 191, 290, 41);
+		Border borderLine1 = BorderFactory.createLineBorder(Color.BLACK, 3);
+		tfSpw.setBorder(borderLine1);
 		tfSpw.setColumns(10);
-		btSign.setBounds(118, 191, 124, 29);
-		btCancel.setBounds(264, 192, 124, 27);
+		btSign.setBounds(29, 315, 124, 41);
+		btCancel.setBounds(181, 315, 124, 41);
+		separator.setBounds(98, 276, 130, 7);
 
 		// 4. 패널에 컴포넌트 추가
 		Login.add(btSID);
@@ -90,6 +107,7 @@ public class SigninFame extends JFrame {
 		Login.add(tfSpw);
 		Login.add(btSign);
 		Login.add(btCancel);
+		Login.add(separator);
 	}
 
 	private void initListener() {
@@ -148,5 +166,4 @@ public class SigninFame extends JFrame {
 			}
 		});
 	}
-
 }

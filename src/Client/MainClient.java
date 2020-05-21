@@ -21,17 +21,14 @@ public class MainClient {
 
 	private static final String TAG = "MainClient : ";
 
+	private GameRoomFrame gameroomFrame;
 	Socket socket;
 	BufferedWriter bw;
 	BufferedReader keyboardln;
-	MainClient mainClient = this;
-	GameRoomFrame gameroomFrame;
 	BufferedImage bi;
-	public String nickName; // 대화할때 나오는 아이디(이름)
 
 	public MainClient(GameRoomFrame gameroomFrame) {
 		this.gameroomFrame = gameroomFrame;
-
 		try {
 			socket = new Socket("localhost", 3500);
 			ReadThread rt = new ReadThread();
@@ -47,85 +44,92 @@ public class MainClient {
 		}
 	}
 
-	// 스타트 버튼 클릭 : StartGame, Chat : 안녕
-	public void send(String outputMsg) {
-		try {
-			bw.write(outputMsg + "\n");
-			bw.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	public void userSend(ArrayList<String> userName) {
-		try {
-			bw.write(userName + "\n");
-			bw.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	class ReadThread implements Runnable {
-		
-		public int x;
-		public int y;
-
-		@Override
-		public void run() {
+	// 스타트 버튼 클릭 : StartGame, Chat:안녕
+		public void send(String outputMsg) {
 			try {
-				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
-				String inputMsg = "";
-				while ((inputMsg = br.readLine()) != null) {
-					router(inputMsg);
-				}
-
-			} catch (Exception e) {
+				bw.write(outputMsg + "\n");
+				System.out.println(TAG + "send 확인!!!!!!!!!!!!" + outputMsg);
+				bw.flush();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
-		public void router(String msgLine) {
-			// 만약에 Chat
-			System.out.println(TAG + "router : " + msgLine);
+		class ReadThread implements Runnable {
 
-			String[] msg = msgLine.split(":");
-			String protocol = msg[0];
-			if (protocol.equals(Protocol.CHAT)) {
-				String username =msg[1];
-				String chatMsg = msg[2];
-				gameroomFrame.taChat.append(" [ " + username + " ] " + chatMsg + "\n");
-			} else if (protocol.equals(Protocol.STARTGAME)) {
-				// 만약에 제시어:false -> 그림판 비활성화, 채팅창 활성화, 제시어부분 클리어
-				// 만약에 제시어:다른게 -> 그림판 활성화, 채팅창 비활성화, 제시어부분 넣어주기
-				String chatMsg = msg[1];
-				if (chatMsg.equals("false")) {
-					gameroomFrame.PDrawing.setEnabled(false);
-					gameroomFrame.tfChat.setEnabled(true);
-					gameroomFrame.tfCard.setText("");
-					gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
-				} else { // 제시어 턴의 주인
-					gameroomFrame.PDrawing.setEnabled(true);
-					gameroomFrame.tfChat.setEditable(false);
-					gameroomFrame.tfCard.setText(chatMsg);
-					gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
+			public int x;
+			public int y;
+
+			@Override
+			public void run() {
+				try {
+					BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+					String inputMsg = "";
+					while ((inputMsg = br.readLine()) != null) {
+						router(inputMsg);
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} else if (protocol.equals(Protocol.DRAW)) {
-				String[] drawMsg = msg[1].split(",");
-				x = Integer.parseInt(drawMsg[1]);
-				y = Integer.parseInt(drawMsg[2]);
-				
-				gameroomFrame.setColor(drawMsg[0]);
-				gameroomFrame.can.setX(x);
-				gameroomFrame.can.setY(y);
-				gameroomFrame.can.repaint();
 			}
-			// System.out.println("MainClient : 상대방채팅 : " + inputMsg);
-			// ta뿌리기
 
-			// grf.taChat.setText(grf.taChat.getText() + inputMsg + "\n");
-			// 아니면 GameStart
+			public void router(String msgLine) {
+				// 만약에 Chat
+
+				String[] msg = msgLine.split(":");
+				String protocol = msg[0];
+				if (protocol.equals(Protocol.CHAT)) {
+					String username = msg[1];
+					String chatMsg = msg[2];
+					gameroomFrame.taChat.append(" [ " + username + " ] " + chatMsg + "\n");
+					gameroomFrame.taChat.setCaretPosition(gameroomFrame.taChat.getDocument().getLength());
+
+				} else if (protocol.equals(Protocol.STARTGAME)) {
+					// 만약에 제시어:false -> 그림판 비활성화, 채팅창 활성화, 제시어부분 클리어
+					// 만약에 제시어:다른게 -> 그림판 활성화, 채팅창 비활성화, 제시어부분 넣어주기
+					String chatMsg = msg[1];
+					if (chatMsg.equals("false")) {
+						gameroomFrame.can.setEnabled(false);
+						gameroomFrame.tfChat.setEnabled(true);
+						gameroomFrame.tfCard.setText("");
+						gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
+						gameroomFrame.btGstart.setEnabled(false);
+					} else { // 제시어 턴의 주인
+						gameroomFrame.can.setEnabled(true);
+						gameroomFrame.tfChat.setEnabled(false);
+						gameroomFrame.tfCard.setText(chatMsg);
+						gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
+						gameroomFrame.btGstart.setEnabled(false);
+					}
+				} else if (protocol.equals(Protocol.DRAW)) {
+					String[] drawMsg = msg[1].split(",");
+					x = Integer.parseInt(drawMsg[1]);
+					y = Integer.parseInt(drawMsg[2]);
+					System.out.println(TAG + "drawMsg : x : " + x + ",  y : " + y);
+
+					gameroomFrame.setColor(drawMsg[0]);
+					gameroomFrame.can.setX(x);
+					gameroomFrame.can.setY(y);
+					gameroomFrame.can.repaint();
+				} else if (protocol.equals(Protocol.ENDGAME)) {
+					gameroomFrame.taChat.setText("게임이 종료되었습니다.");
+					gameroomFrame.btGstart.setEnabled(true);
+				} else if (protocol.equals(Protocol.CONNECT)) {
+					// msg[0] : 프로토콜, msg[1] : getUserListParser() - userList + ","
+					String[] connectMsg = msg[1].split(",");
+					gameroomFrame.taUserList.setText("");
+					for (int i = 0; i < connectMsg.length; i++) {
+						gameroomFrame.taUserList.append(connectMsg[i] + "\n");
+						System.out.println(TAG + "connect 확인 : " + connectMsg[i]);
+					}
+
+				} else if (protocol.equals(Protocol.ALLERASER)) {
+					gameroomFrame.can.getGraphics().clearRect(0, 0, 900, 900);
+
+				}
+			}
 		}
+
 	}
-}

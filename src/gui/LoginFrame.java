@@ -32,7 +32,6 @@ public class LoginFrame extends JFrame {
 	public JTextField tfID;
 	public JPasswordField tfpw;
 	public MainClient mainClient;
-	public ArrayList<String> userName = new ArrayList<>();
 
 	// 생성자
 	public LoginFrame() {
@@ -40,11 +39,13 @@ public class LoginFrame extends JFrame {
 		initData();
 		initDesign();
 		initListener();
-		setVisible(true);
+		setVisible(true);	
 	}
 
 	// 객체생성
 	private void initObject() {
+		
+//		mainClient = new MainClient(loginFrame);
 		pLogin = new JPanel();
 
 		btID = new JButton("아이디");
@@ -52,8 +53,8 @@ public class LoginFrame extends JFrame {
 		btSign = new JButton("회원가입");
 		btLogin = new JButton("로그인");
 
-		tfID = new JTextField();
-		tfpw = new JPasswordField();
+		tfID = new JTextField("test");
+		tfpw = new JPasswordField("1111");
 	}
 
 	// 데이터 초기화
@@ -115,12 +116,8 @@ public class LoginFrame extends JFrame {
 				if (result == 1) {
 					new GameRoomFrame(tfID.getText());
 					loginFrame.setVisible(false);
-					// 로그인 성공시 list에 담아서 push
-					userName.add(tfID.getText());
-					System.out.println(TAG + "getText 확인 : " + tfID.getText());
-					mainClient.userSend(userName);
-					System.out.println(TAG + "userName 확인 : " + userName);
-					
+					// 로그인 성공시 list 에 담아서 push
+					String userName = tfID.getText() + ",";
 				} else {
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.");
 					tfID.setText("");
