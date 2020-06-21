@@ -11,8 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,7 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,6 +27,7 @@ import javax.swing.border.Border;
 
 import Client.MainClient;
 import paint.MyCanvas;
+import server.MainServer;
 import utils.Protocol;
 
 public class GameRoomFrame extends JFrame {
@@ -36,7 +36,7 @@ public class GameRoomFrame extends JFrame {
 
 	private GameRoomFrame gameroomFrame = this;
 	public JTextField tfCard, tfChat;
-	public JButton btEnter, btCard, btGstart, btBlack, btRed, btBlue, btEraser, btAlldel;
+	public JButton btEnter, btCard, btGstart, btBlack, btRed, btBlue, btGreen, btYellow, btEraser, btAlldel, btBar;
 	public JTextArea taChat, taUserList;
 	public JLabel LuserList;
 	public MainClient mainClient;
@@ -45,43 +45,58 @@ public class GameRoomFrame extends JFrame {
 	private JLabel laUsername;
 	public MyCanvas can;
 	private String currentColor = "black";
+	private JButton btGreen_1;
+	public ImageIcon iconGR;
 
 	public GameRoomFrame(String username) {
 		this.username = username;
+		
+		back();
 		initObject();
 		initData();
 		initDesign();
 		initListener();
 		setVisible(true);
 	}
+	
+	private void back() {
+		iconGR = new ImageIcon("src/images/gameRoomFrame.png");
+		PDrawing = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				g.drawImage(iconGR.getImage(), 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		
+	}
+	
 
 	// 객체생성
 	public void initObject() {
 		mainClient = new MainClient(gameroomFrame);
-		btCard = new JButton("제시어");
-		btGstart = new JButton("게임시작");
+		btBar = new JButton(new ImageIcon("src/images/grBar.png"));
+		btCard = new JButton(new ImageIcon("src/images/grQuiz.png"));
+		btGstart = new JButton(new ImageIcon("src/images/grGS.png"));
 		tfCard = new JTextField();
+//		PDrawing = new JPanel();
 		Canvas = new JPanel();
-		PDrawing = new JPanel();
-		Canvas.setLayout(null);
-
-		LuserList = new JLabel("User List");
+		LuserList = new JLabel(new ImageIcon("src/images/grUList.png"));
 		taUserList = new JTextArea();
 		tfChat = new JTextField();
-		btEnter = new JButton("Enter");
-		taChat = new JTextArea();
+		btEnter = new JButton(new ImageIcon("src/images/grEn.png"));
 		btBlack = new JButton(new ImageIcon("src/images/black.png"));
 		btRed = new JButton(new ImageIcon("src/images/red.png"));
 		btBlue = new JButton(new ImageIcon("src/images/blue.png"));
-		btEraser = new JButton("지우기");
-		btAlldel = new JButton("모두 지우기");
-		can = new MyCanvas();
+		btGreen = new JButton(new ImageIcon("src/images/green.png"));
+		btYellow = new JButton(new ImageIcon("src/images/yellow.png"));
+		btEraser = new JButton(new ImageIcon("src/images/grE.png"));
+		btAlldel = new JButton(new ImageIcon("src/images/grAE.png"));
 	}
 
 	// 데이터초기화
 	private void initData() {
 		String userMsg = Protocol.CONNECT + ":" + username;
-//		mainClient.userSend(userMsg);
 		mainClient.send(userMsg);
 		System.out.println(TAG + "send 확인 !!!!! " + userMsg);
 	}
@@ -90,44 +105,54 @@ public class GameRoomFrame extends JFrame {
 	public void initDesign() {
 		// 1. 기본세팅
 		setTitle("Game Room");
-		setBounds(100, 100, 962, 738);
+		setBounds(100, 100, 962, 787);
+		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(211, 211, 211));
 
 		// 2. 패널세팅
-		btCard.setBounds(40, 46, 112, 34);
-		tfCard.setBounds(160, 46, 262, 34);
+		btCard.setBounds(36, 66, 112, 48);
+		tfCard.setBounds(160, 66, 401, 47);
 		tfCard.setColumns(10);
 		tfCard.setEnabled(false);
 		tfCard.setDisabledTextColor(Color.BLACK);
-		Border cardBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
-		tfCard.setBorder(cardBorder);
-		btGstart.setBounds(580, 46, 323, 63);
-		LuserList.setBounds(579, 121, 308, 27);
-		taUserList.setBounds(580, 157, 323, 120);
+		Border borderLine = BorderFactory.createLineBorder(Color.BLACK, 3);
+		tfCard.setBorder(borderLine);
+		btGstart.setBounds(580, 66, 323, 48);
+		LuserList.setBounds(578, 115, 320, 40);
+		taUserList.setBounds(580, 177, 323, 92);
 		taUserList.setEnabled(false);
+		taUserList.setBorder(borderLine);
 		taUserList.setDisabledTextColor(Color.BLACK);
-		Canvas.setBounds(40, 106, 502, 541);
 		
-		JScrollPane chatScroll = new JScrollPane(taChat);
-		chatScroll.setBounds(580, 292, 323, 305);
-		taChat.setEnabled(false);
-		taChat.setDisabledTextColor(Color.BLACK);
-		
-		tfChat.setBounds(580, 609, 229, 38);
+		JScrollPane chatScroll = new JScrollPane();
+		chatScroll.setBounds(584, 275, 316, 363);
+		tfChat.setBounds(582, 657, 243, 43);
 		tfChat.setColumns(10);
-		btEnter.setBounds(823, 609, 80, 38);
-		btBlack.setBounds(14, 12, 54, 46);
-		btBlack.setPreferredSize(new Dimension(54, 46));
-		btRed.setBounds(82, 12, 54, 46);
-		btRed.setPreferredSize(new Dimension(54, 46));
-		btBlue.setBounds(150, 12, 54, 46);
-		btBlue.setPreferredSize(new Dimension(54, 46));
-		btEraser.setBounds(273, 12, 85, 46);
-		btAlldel.setBounds(372, 12, 116, 46);
-		PDrawing.setBounds(14, 81, 474, 448);
-		can.setSize(474, 448);
-		can.setBackground(Color.WHITE);
+		tfChat.setBorder(borderLine);
+		btEnter.setBounds(831, 656, 73, 44);
+		btBlack.setBounds(18, 521, 54, 35);
+		btBlack.setPreferredSize(new Dimension(40, 25));
+		btRed.setBounds(77, 521, 54, 35);
+		btRed.setPreferredSize(new Dimension(40, 25));
+		btBlue.setBounds(135, 521, 54, 35);
+		btBlue.setPreferredSize(new Dimension(40, 25));
+		btGreen.setBounds(195, 521, 54, 35);
+		btGreen.setPreferredSize(new Dimension(40, 25));
+		btYellow.setBounds(253, 521, 54, 35);
+		btYellow.setPreferredSize(new Dimension(40, 25));
+
+
+		btEraser.setBounds(337, 521, 54, 35);
+		btAlldel.setBounds(397, 521, 100, 35);
+		PDrawing.setBounds(15, 100, 474, 403);
+		Canvas.setLayout(null);
+		Canvas.setBounds(40, 126, 521, 574);
+		Canvas.setBorder(borderLine);
+		Canvas.setBackground(Color.WHITE);
+		
+		
 
 		// 3. 패널에 컴포넌트 추가
 		getContentPane().add(btCard);
@@ -139,17 +164,35 @@ public class GameRoomFrame extends JFrame {
 		getContentPane().add(chatScroll);
 		getContentPane().add(tfChat);
 		getContentPane().add(btEnter);
+		can = new MyCanvas();
+		can.setLocation(8, 5);
+		Canvas.add(can);
+		can.setSize(489, 506);
+		can.setBackground(Color.WHITE);
 		Canvas.add(btBlack);
 		Canvas.add(btRed);
 		Canvas.add(btBlue);
+		Canvas.add(btGreen);
+		Canvas.add(btYellow);
 		Canvas.add(btEraser);
 		Canvas.add(btAlldel);
 		Canvas.add(PDrawing);
-		PDrawing.add(can);
 
-		laUsername = new JLabel(username);
-		laUsername.setBounds(40, 10, 57, 15);
+		laUsername = new JLabel();
+		laUsername.setBounds(581, 137, 57, 15);
 		getContentPane().add(laUsername);
+		taChat = new JTextArea();
+		taChat.setBounds(580, 272, 323, 369);
+		getContentPane().add(taChat);
+		taChat.setEditable(false);
+		taChat.setTabSize(10);
+		taChat.setEnabled(false);
+		taChat.setBorder(borderLine);
+		taChat.setDisabledTextColor(Color.BLACK);
+		btBar.setBounds(-1, 1, 944, 40);
+//		btBar.setEnabled(false);
+		btBar.setBorder(borderLine);
+		getContentPane().add(btBar);
 	}
 
 	// 리스너 등록
@@ -203,6 +246,8 @@ public class GameRoomFrame extends JFrame {
 		btBlack.addActionListener(myHandler);
 		btRed.addActionListener(myHandler);
 		btBlue.addActionListener(myHandler);
+		btGreen.addActionListener(myHandler);
+		btYellow.addActionListener(myHandler);
 		btEraser.addActionListener(myHandler);
 		btAlldel.addActionListener(myHandler);
 	}
@@ -214,6 +259,10 @@ public class GameRoomFrame extends JFrame {
 			can.color = Color.RED;
 		} else if (myColor.equals("blue")) {
 			can.color = Color.BLUE;
+		} else if (myColor.equals("Green")) {
+			can.color = Color.GREEN;
+		} else if (myColor.equals("Yellow")) {
+			can.color = Color.YELLOW;
 		} else if (myColor.equals("eraser")) {
 			can.color = can.getBackground();
 		} 
@@ -234,6 +283,12 @@ public class GameRoomFrame extends JFrame {
 			} else if (object == btBlue) {
 				can.color = Color.BLUE;
 				currentColor = "blue";
+			} else if (object == btGreen) {
+				can.color = Color.GREEN;
+				currentColor = "Green";
+			} else if (object == btYellow) {
+				can.color = Color.YELLOW;
+				currentColor = "Yellow";
 			} else if (object == btEraser) {
 				can.color = can.getBackground();
 				currentColor = "eraser";
@@ -267,5 +322,4 @@ public class GameRoomFrame extends JFrame {
 		public void mouseMoved(MouseEvent e) {
 		}
 	}
-
 }

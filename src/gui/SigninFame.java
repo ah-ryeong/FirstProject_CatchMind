@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import javax.swing.JPasswordField;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -35,31 +37,40 @@ public class SigninFame extends JFrame {
 	public JTextField tfSid;
 	public JPasswordField tfSpw;
 	public JButton btSID, btIdCheck, btSPW, btSign, btCancel;
-	public JSeparator separator;
 	public static MainClient mainClient;
+	public ImageIcon iconS;
 
 	// 생성자
 	public SigninFame(MainClient mainClient) {
 		this.mainClient = mainClient;
+		
+		back();
 		initObject();
 		initData();
 		initDesign();
 		initListener();
 		setVisible(true);
 	}
+	
+	private void back() {
+		iconS = new ImageIcon("src/images/signinFrame.png");
+		Login = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				g.drawImage(iconS.getImage(), 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		
+	}
+	
 
 	// 객체생성
 	private void initObject() {
-		Login = new JPanel();
-		Login.setBackground(Color.WHITE);
 
-		btSID = new JButton("아이디");
-		btIdCheck = new JButton("중복확인");
-		btSPW = new JButton("비밀번호");
-		btSign = new JButton("가입하기");
-		btCancel = new JButton("취소");
-		separator = new JSeparator();
-		separator.setBackground(Color.BLACK);
+		btIdCheck = new JButton(new ImageIcon("src/images/tbCheck.png"));
+		btSign = new JButton(new ImageIcon("src/images/tbSignin.png"));
+		btCancel = new JButton(new ImageIcon("src/images/tbCancel.png"));
 
 		tfSid = new JTextField();
 		tfSpw = new JPasswordField();
@@ -75,7 +86,7 @@ public class SigninFame extends JFrame {
 
 		// 1. 기본세팅
 		signinFrame.setTitle("회원가입");
-		signinFrame.setBounds(100, 100, 359, 437);
+		signinFrame.setBounds(100, 100, 381, 488);
 		signinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		signinFrame.setLocationRelativeTo(null);
 		signinFrame.getContentPane().add(Login, BorderLayout.CENTER);
@@ -84,30 +95,24 @@ public class SigninFame extends JFrame {
 		Login.setLayout(null);
 
 		// 3. 디자인
-		btSID.setBounds(24, 64, 89, 27);
-		tfSid.setBounds(24, 93, 178, 41);
+		tfSid.setBounds(36, 132, 178, 41);
 		tfSid.setColumns(10);
 		Border borderLine = BorderFactory.createLineBorder(Color.BLACK, 3);
 		tfSid.setBorder(borderLine);
-		btIdCheck.setBounds(216, 94, 98, 38);
-		btSPW.setBounds(24, 162, 89, 27);
-		tfSpw.setBounds(25, 191, 290, 41);
+		btIdCheck.setBounds(228, 133, 98, 41);
+		tfSpw.setBounds(38, 229, 290, 41);
 		Border borderLine1 = BorderFactory.createLineBorder(Color.BLACK, 3);
 		tfSpw.setBorder(borderLine1);
 		tfSpw.setColumns(10);
-		btSign.setBounds(29, 315, 124, 41);
-		btCancel.setBounds(181, 315, 124, 41);
-		separator.setBounds(98, 276, 130, 7);
+		btSign.setBounds(41, 335, 124, 41);
+		btCancel.setBounds(193, 335, 124, 41);
 
 		// 4. 패널에 컴포넌트 추가
-		Login.add(btSID);
 		Login.add(tfSid);
 		Login.add(btIdCheck);
-		Login.add(btSPW);
 		Login.add(tfSpw);
 		Login.add(btSign);
 		Login.add(btCancel);
-		Login.add(separator);
 	}
 
 	private void initListener() {

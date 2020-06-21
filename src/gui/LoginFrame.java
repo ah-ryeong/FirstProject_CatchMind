@@ -7,13 +7,19 @@ import javax.swing.JOptionPane;
 
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import Client.MainClient;
 import dao.UserDao;
 import models.User;
 import oracle.net.aso.c;
+import utils.Protocol;
 
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -21,20 +27,26 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import java.awt.Color;
 
 public class LoginFrame extends JFrame {
 
 	private final static String TAG = "SigninFrame : ";
 
 	public LoginFrame loginFrame = this;
+	
 	public JPanel pLogin;
 	public JButton btID, btPW, btSign, btLogin;
 	public JTextField tfID;
 	public JPasswordField tfpw;
 	public MainClient mainClient;
+	public ImageIcon icon;
+//	public ArrayList<String> userName = new ArrayList<>();
 
 	// 생성자
 	public LoginFrame() {
+		back();
 		initObject();
 		initData();
 		initDesign();
@@ -42,19 +54,25 @@ public class LoginFrame extends JFrame {
 		setVisible(true);	
 	}
 
+	private void back() {
+		icon = new ImageIcon("src/images/loginFrame.png");
+		pLogin = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(), 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		
+	}
+	
 	// 객체생성
 	private void initObject() {
-		
-//		mainClient = new MainClient(loginFrame);
-		pLogin = new JPanel();
+		btSign = new JButton(new ImageIcon("src/images/tbSignin.png"));
+		btLogin = new JButton(new ImageIcon("src/images/tbLogin.png"));
 
-		btID = new JButton("아이디");
-		btPW = new JButton("비밀번호");
-		btSign = new JButton("회원가입");
-		btLogin = new JButton("로그인");
-
-		tfID = new JTextField("test");
-		tfpw = new JPasswordField("1111");
+		tfID = new JTextField();
+		tfpw = new JPasswordField();
 	}
 
 	// 데이터 초기화
@@ -66,7 +84,8 @@ public class LoginFrame extends JFrame {
 	private void initDesign() {
 		// 1. 기본세팅
 		loginFrame.setTitle("Login");
-		loginFrame.setBounds(100, 100, 393, 269);
+		
+		loginFrame.setBounds(100, 100, 382, 489);
 		loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loginFrame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -76,21 +95,25 @@ public class LoginFrame extends JFrame {
 
 		// 3. 디자인
 		tfID.setColumns(10);
-		tfID.setBounds(197, 46, 128, 24);
-		btID.setBounds(67, 45, 105, 27);
-		tfpw.setBounds(197, 99, 128, 26);
-		btPW.setBounds(67, 99, 105, 27);
+		tfID.setBounds(38, 177, 285, 43);
+		Border borderLine1 = BorderFactory.createLineBorder(Color.BLACK, 3);
+		tfID.setBorder(borderLine1);
+		tfpw.setBounds(38, 269, 285, 43);
+		Border borderLine = BorderFactory.createLineBorder(Color.BLACK, 3);
+		tfpw.setBorder(borderLine);
 		tfpw.setColumns(10);
-		btSign.setBounds(94, 160, 89, 27);
-		btLogin.setBounds(197, 160, 89, 27);
+		btSign.setBounds(49, 350, 124, 41);
+		btLogin.setBounds(189, 350, 124, 41);
 
 		// 4. 패널에 컴포넌트 추가
-		pLogin.add(btID);
 		pLogin.add(tfID);
-		pLogin.add(btPW);
 		pLogin.add(tfpw);
 		pLogin.add(btSign);
 		pLogin.add(btLogin);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(111, 281, 120, -1);
+		pLogin.add(separator);
 	}
 
 	// 리스너 등록
@@ -128,5 +151,4 @@ public class LoginFrame extends JFrame {
 		});
 
 	}
-
 }

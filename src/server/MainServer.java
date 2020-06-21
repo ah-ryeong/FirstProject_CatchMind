@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import Client.MainClient;
+import gui.CountDown;
 import gui.GameRoomFrame;
 import paint.MyCanvas;
 import utils.Protocol;
@@ -33,7 +34,7 @@ public class MainServer {
 
 	public MainServer() throws Exception {
 		vc = new Vector<>();
-		serverSocket = new ServerSocket(8892);
+		serverSocket = new ServerSocket(3500);
 		System.out.println(TAG + "서버접속완료");
 
 		while (true) {
